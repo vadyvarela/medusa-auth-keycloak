@@ -65,10 +65,9 @@ export async function validateAdminCallback<
 			(strict === 'all' || strict === 'admin') &&
 			(!user.metadata || user.metadata[AUTH_PROVIDER_KEY] !== strategyNames[strategyErrorIdentifier].admin)
 		) {
-			console.log("AQUI - ", user.metadata[AUTH_PROVIDER_KEY] + " || " + strategyNames[strategyErrorIdentifier].admin)
+		
 			return { id: user.id };
 		} else {
-			console.log("AQUI ELSE - ", user + " || " + strategyNames[strategyErrorIdentifier].admin)
 		}
 	} else {
 		const storeRepo = manager.withRepository(storeRepository)

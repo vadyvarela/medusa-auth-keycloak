@@ -12,6 +12,7 @@
 		"incremental": false,
     "declaration": true,
     "declarationMap": true,
+    "allowJs": true,
     "noEmit": false,
     "resolveJsonModule": true,
     "esModuleInterop": true,

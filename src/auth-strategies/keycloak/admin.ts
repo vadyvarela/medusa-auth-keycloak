@@ -5,8 +5,7 @@ import { PassportStrategy } from '../../core/passport/Strategy';
 import { validateAdminCallback } from '../../core/validate-callback';
 import { passportAuthRoutesBuilder } from '../../core/passport/utils/auth-routes-builder';
 import { AuthOptions } from '../../types';
-import keycloak from "passport-keycloak-jwt-introspect";
-import { Strategy as KeyCloakStrategy } from 'passport-keycloak-oauth2-oidc';
+import { KeyCloakStrategy } from '../../core/passport-keycloak-oauth2-oidc';
 
 export class KeycloakAdminStrategy extends PassportStrategy(KeyCloakStrategy, KEYCLOAK_ADMIN_STRATEGY_NAME) {
 

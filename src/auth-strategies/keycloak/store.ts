@@ -1,5 +1,3 @@
-import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
-import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { ConfigModule, MedusaContainer } from '@medusajs/medusa/dist/types/global';
 import { Router } from 'express';
 import { KEYCLOAK_STORE_STRATEGY_NAME, KeycloakAuthOptions, Profile } from './types';
@@ -7,9 +5,7 @@ import { PassportStrategy } from '../../core/passport/Strategy';
 import { validateStoreCallback } from '../../core/validate-callback';
 import { passportAuthRoutesBuilder } from '../../core/passport/utils/auth-routes-builder';
 import { AuthOptions } from '../../types';
-import KeycloakBearerStrategy from 'passport-keycloak-bearer'
-import keycloak from "passport-keycloak-jwt-introspect";
-import { Strategy as KeyCloakStrategy } from 'passport-keycloak-oauth2-oidc';
+import { KeyCloakStrategy } from '../../core/passport-keycloak-oauth2-oidc';
 
 export class KeycloakStoreStrategy extends PassportStrategy(KeyCloakStrategy, KEYCLOAK_STORE_STRATEGY_NAME) {
 
@@ -20,14 +16,14 @@ export class KeycloakStoreStrategy extends PassportStrategy(KeyCloakStrategy, KE
 		protected readonly strict?: AuthOptions['strict']
 	) {
 		super({
-			clientID: 'vady-obc',
-			realm: 'vady',
-			publicClient: 'false',
-			clientSecret: 'vbMYKjSpd6LKomk05Wy8dJMkdnV7zdhV',
-			sslRequired: 'external',
-			scope: "openid profile email",
-			authServerURL: 'http://localhost:8080',
-			callbackURL: 'http://localhost:9000/admin/auth/keycloak/cb'
+			clientID: strategyOptions.clientID,
+			realm: strategyOptions.realm,
+			publicClient: strategyOptions.publicClient,
+			clientSecret: strategyOptions.clientSecret,
+			sslRequired: strategyOptions.sslRequired,
+			scope: strategyOptions.scope,
+			authServerURL: strategyOptions.authServerURL,
+			callbackURL: strategyOptions.store.callbackUrl,
 		});
 	}
 
@@ -36,8 +32,8 @@ export class KeycloakStoreStrategy extends PassportStrategy(KeyCloakStrategy, KE
 		refreshToken: string,
 		profile
 	): Promise<null | { id: string }> {
-		if (this.strategyOptions.admin.verifyCallback) {
-			return await this.strategyOptions.admin.verifyCallback(
+		if (this.strategyOptions.store.verifyCallback) {
+			return await this.strategyOptions.store.verifyCallback(
 				this.container,
 				accessToken,
 				refreshToken,
