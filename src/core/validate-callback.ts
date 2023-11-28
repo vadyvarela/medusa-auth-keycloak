@@ -61,13 +61,12 @@ export async function validateAdminCallback<
 
 	if (user) {
 		strict ??= 'all';
-		if (
-			(strict === 'all' || strict === 'admin') &&
+		if ((strict === 'all' || strict === 'admin') &&
 			(!user.metadata || user.metadata[AUTH_PROVIDER_KEY] !== strategyNames[strategyErrorIdentifier].admin)
 		) {
-		
 			return { id: user.id };
 		} else {
+			return { id: user.id };
 		}
 	} else {
 		const storeRepo = manager.withRepository(storeRepository)
