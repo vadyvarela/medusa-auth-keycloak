@@ -38,6 +38,7 @@ First of all, you need to install the plugin as follow `yarn add medusa-plugin-a
 - [Github](#github)
 - [Microsoft](#microsoft)
 - [Azure AD OIDC](#azure)
+- [Keycloak](#Keycloak)
 
 ### Google
 
