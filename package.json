@@ -1,33 +1,16 @@
 {
-  "name": "medusa-plugin-auth",
+  "name": "vady-kc-auth",
   "version": "1.5.1",
-  "description": "Social authentication plugin for medusajs",
+  "description": "KC Auth",
   "keywords": [
-    "social",
-    "auth",
-    "auth0",
-    "google",
-    "google+",
-    "facebook",
-    "twitter",
-    "linkedin",
-    "github",
-    "microsoft",
-    "passportjs",
-    "oauth2",
-    "medusa",
-    "medusajs",
-    "e-commerce",
-    "authentication",
-    "medusa-plugins",
-    "medusa-plugin"
+    "social"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adrien2p/medusa-plugins.git"
+    "url": "git+https://github.com/vadyvarela/medusa-auth-keycloak.git"
   },
-  "author": "Adrien de Peretti <adrien.deperetti@gmail.com",
+  "author": "Vadnir Vieira <vadyy2014@gmail.com",
   "files": [
     "api",
     "utils",
@@ -42,8 +25,7 @@
     "build:tsc:watch": "tsc --build ./tsconfig.json --watch",
     "build:tsc": "tsc -b",
     "clean": "rimraf api services utils types loaders auth-strategies coverage tsconfig.tsbuildinfo",
-    "test": "jest",
-    "test:ci": "yarn add -D @medusajs/medusa@${MEDUSAJS_VERSION} && yarn run test"
+    "test": "jest"
   },
   "peerDependencies": {
     "@medusajs/medusa": "^1.9.0",
