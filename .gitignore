@@ -14,7 +14,6 @@ node_modules
 .DS_store
 **/.DS_Store
 
-dist
 coverage
 
 tsconfig.tsbuildinfo
