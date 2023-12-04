@@ -10,8 +10,11 @@
     "type": "git",
     "url": "git+https://github.com/vadyvarela/medusa-auth-keycloak.git"
   },
+  "main": "dist/index.js",
   "author": "Vadnir Vieira <vadyy2014@gmail.com",
   "files": [
+    "src",
+    "disc",
     "api",
     "utils",
     "core",
@@ -24,8 +27,7 @@
     "build": "run-s clean build:tsc",
     "build:tsc:watch": "tsc --build ./tsconfig.json --watch",
     "build:tsc": "tsc -b",
-    "clean": "rimraf api services utils types loaders auth-strategies coverage tsconfig.tsbuildinfo",
-    "test": "jest"
+    "clean": "rimraf api services utils types loaders auth-strategies coverage tsconfig.tsbuildinfo"
   },
   "peerDependencies": {
     "@medusajs/medusa": "^1.9.0",
@@ -59,33 +61,5 @@
     "passport-linkedin-oauth2": "^2.0.0",
     "run-s": "^0.0.0",
     "typescript": "^5.2.2"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "testTimeout": 100000,
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transformIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "collectCoverageFrom": [
-      "**/*.(t|j)s",
-      "!**/__*__/*.(t|j)s"
-    ],
-    "coverageReporters": [
-      "json-summary",
-      "text",
-      "lcov"
-    ],
-    "coverageDirectory": "<rootDir>/../coverage",
-    "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "<rootDir>/../setup-tests.js"
-    ]
   }
 }
