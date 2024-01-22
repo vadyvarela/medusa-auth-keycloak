@@ -1,6 +1,6 @@
 {
   "name": "vady-kc-auth",
-  "version": "1.5.4",
+  "version": "2.2.9",
   "description": "KC Auth",
   "keywords": [
     "social"
@@ -20,7 +20,10 @@
     "core",
     "types",
     "loaders",
-    "auth-strategies"
+    "auth-strategies",
+    "services",
+    "models",
+    "repositories"
   ],
   "types": "types/index.d.ts",
   "scripts": {

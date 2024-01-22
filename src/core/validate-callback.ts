@@ -12,9 +12,11 @@ import {
 } from '../types';
 import StoreRepository from '@medusajs/medusa/dist/repositories/store';
 import { CreateUserInput } from '@medusajs/medusa/dist/types/user';
+import UserRepository from '@medusajs/medusa/dist/repositories/user';
 
 interface CreateUserInputWithStore extends CreateUserInput {
 	store_id: string;
+	stores?: any
 }
 
 /**
@@ -45,6 +47,7 @@ export async function validateAdminCallback<
 ): Promise<{ id: string } | never> {
 	const userService: UserService = container.resolve('userService');
 	const storeRepository: typeof StoreRepository = container.resolve('storeRepository');
+	const userRepository: typeof UserRepository = container.resolve('userRepository');
 	const manager: EntityManager = container.resolve("manager")
 	// const email = profile?.emails?.[0]?.value;
 	const email = profile?.email;
@@ -72,7 +75,6 @@ export async function validateAdminCallback<
 		const storeRepo = manager.withRepository(storeRepository)
 		let newStore = storeRepo.create()
 		newStore = await storeRepo.save(newStore)
-		
 		user = await userService.create({
 			email,
 			metadata: {
@@ -82,8 +84,10 @@ export async function validateAdminCallback<
 			},
 			first_name: profile?.givenName ?? '',
 			last_name: profile?.familyName ?? '',
-			store_id: newStore.id
+			store_id: newStore.id,
+			stores: [newStore]
 		} as CreateUserInputWithStore, "");
+
 		return { id: user.id };
 	}
 
@@ -100,12 +104,13 @@ export async function validateAdminCallback<
 export async function validateStoreCallback<
 	T extends {
 		name?: { givenName?: string; familyName?: string };
+		givenName?: string; familyName?: string
 		_json?: {
 			email_verified?: boolean;
 		};
-		emails?: { value: string }[];
+		email?: string ;
 	} = {
-		emails?: { value: string }[];
+		email?: string;
 	}
 >(
 	profile: T,
@@ -123,7 +128,7 @@ export async function validateStoreCallback<
 	const customerService: CustomerService = container.resolve('customerService');
 
 	return await manager.transaction(async (transactionManager) => {
-		const email = profile.emails?.[0]?.value;
+		const email = profile.email;
 		const hasEmailVerifiedField = profile._json?.email_verified !== undefined;
 
 		if (!email) {
@@ -183,8 +188,8 @@ export async function validateStoreCallback<
 				[AUTH_PROVIDER_KEY]: strategyNames[strategyErrorIdentifier].store,
 				[EMAIL_VERIFIED_KEY]: hasEmailVerifiedField ? profile._json.email_verified : false,
 			},
-			first_name: profile.name?.givenName ?? '',
-			last_name: profile.name?.familyName ?? '',
+			first_name: profile.givenName ?? '',
+			last_name: profile.familyName ?? '',
 			has_account: true,
 
 		});

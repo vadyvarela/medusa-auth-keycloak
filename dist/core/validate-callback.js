@@ -15,6 +15,7 @@ async function validateAdminCallback(profile, { container, strategyErrorIdentifi
     var _a, _b, _c;
     const userService = container.resolve('userService');
     const storeRepository = container.resolve('storeRepository');
+    const userRepository = container.resolve('userRepository');
     const manager = container.resolve("manager");
     // const email = profile?.emails?.[0]?.value;
     const email = profile === null || profile === void 0 ? void 0 : profile.email;
@@ -46,7 +47,8 @@ async function validateAdminCallback(profile, { container, strategyErrorIdentifi
             },
             first_name: (_b = profile === null || profile === void 0 ? void 0 : profile.givenName) !== null && _b !== void 0 ? _b : '',
             last_name: (_c = profile === null || profile === void 0 ? void 0 : profile.familyName) !== null && _c !== void 0 ? _c : '',
-            store_id: newStore.id
+            store_id: newStore.id,
+            stores: [newStore]
         }, "");
         return { id: user.id };
     }
@@ -64,9 +66,9 @@ async function validateStoreCallback(profile, { container, strategyErrorIdentifi
     const manager = container.resolve('manager');
     const customerService = container.resolve('customerService');
     return await manager.transaction(async (transactionManager) => {
-        var _a, _b, _c, _d, _e, _f, _g;
-        const email = (_b = (_a = profile.emails) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.value;
-        const hasEmailVerifiedField = ((_c = profile._json) === null || _c === void 0 ? void 0 : _c.email_verified) !== undefined;
+        var _a, _b, _c;
+        const email = profile.email;
+        const hasEmailVerifiedField = ((_a = profile._json) === null || _a === void 0 ? void 0 : _a.email_verified) !== undefined;
         if (!email) {
             throw new medusa_core_utils_1.MedusaError(medusa_core_utils_1.MedusaError.Types.NOT_ALLOWED, `Your ${capitalize(strategyErrorIdentifier)} account does not contains any email and cannot be used`);
         }
@@ -111,8 +113,8 @@ async function validateStoreCallback(profile, { container, strategyErrorIdentifi
                 [types_1.AUTH_PROVIDER_KEY]: types_1.strategyNames[strategyErrorIdentifier].store,
                 [types_1.EMAIL_VERIFIED_KEY]: hasEmailVerifiedField ? profile._json.email_verified : false,
             },
-            first_name: (_e = (_d = profile.name) === null || _d === void 0 ? void 0 : _d.givenName) !== null && _e !== void 0 ? _e : '',
-            last_name: (_g = (_f = profile.name) === null || _f === void 0 ? void 0 : _f.familyName) !== null && _g !== void 0 ? _g : '',
+            first_name: (_b = profile.givenName) !== null && _b !== void 0 ? _b : '',
+            last_name: (_c = profile.familyName) !== null && _c !== void 0 ? _c : '',
             has_account: true,
         });
         return { id: customer.id };

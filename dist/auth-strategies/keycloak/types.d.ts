@@ -6,10 +6,8 @@ export type Profile = {
     emails: {
         value: string;
     }[];
-    name?: {
-        givenName?: string;
-        familyName?: string;
-    };
+    givenName?: string;
+    familyName?: string;
 };
 export type KeycloakAuthOptions = {
     clientID: string;
