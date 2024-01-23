@@ -20,7 +20,6 @@ export default {
 	},
 	getRouter: (configModule: ConfigModule, options: AuthOptions): Router[] => {
 		const routers = [];
-
 		if (options.keycloak?.admin) {
 			routers.push(getKeycloakAdminAuthRouter(options.keycloak, configModule));
 		}

@@ -2,7 +2,7 @@ import { MedusaContainer } from '@medusajs/medusa/dist/types/global';
 import { AuthOptions } from '../../types';
 
 export const KEYCLOAK_ADMIN_STRATEGY_NAME = 'keycloak.admin.medusa-auth-plugin';
-export const KEYCLOAK_STORE_STRATEGY_NAME = 'keycloak.admin.medusa-auth-plugin';
+export const KEYCLOAK_STORE_STRATEGY_NAME = 'keycloak.store.medusa-auth-plugin';
 
 export type Profile = { emails: { value: string }[]; givenName?: string; familyName?: string };
 
