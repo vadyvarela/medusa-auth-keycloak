@@ -15,8 +15,8 @@ import { CreateUserInput } from '@medusajs/medusa/dist/types/user';
 import UserRepository from '@medusajs/medusa/dist/repositories/user';
 
 interface CreateUserInputWithStore extends CreateUserInput {
-	store_id: string;
-	stores?: any
+	// store_id: string;
+	// stores?: any
 }
 
 /**
@@ -72,9 +72,9 @@ export async function validateAdminCallback<
 			return { id: user.id };
 		}
 	} else {
-		const storeRepo = manager.withRepository(storeRepository)
-		let newStore = storeRepo.create()
-		newStore = await storeRepo.save(newStore)
+		// const storeRepo = manager.withRepository(storeRepository)
+		// let newStore = storeRepo.create()
+		// newStore = await storeRepo.save(newStore)
 		user = await userService.create({
 			email,
 			metadata: {
@@ -84,8 +84,8 @@ export async function validateAdminCallback<
 			},
 			first_name: profile?.givenName ?? '',
 			last_name: profile?.familyName ?? '',
-			store_id: newStore.id,
-			stores: [newStore]
+			// store_id: newStore.id,
+			//stores: [newStore]
 		} as CreateUserInputWithStore, "");
 
 		return { id: user.id };

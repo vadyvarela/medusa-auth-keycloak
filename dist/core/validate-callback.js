@@ -35,9 +35,9 @@ async function validateAdminCallback(profile, { container, strategyErrorIdentifi
         }
     }
     else {
-        const storeRepo = manager.withRepository(storeRepository);
-        let newStore = storeRepo.create();
-        newStore = await storeRepo.save(newStore);
+        // const storeRepo = manager.withRepository(storeRepository)
+        // let newStore = storeRepo.create()
+        // newStore = await storeRepo.save(newStore)
         user = await userService.create({
             email,
             metadata: {
@@ -47,8 +47,8 @@ async function validateAdminCallback(profile, { container, strategyErrorIdentifi
             },
             first_name: (_b = profile === null || profile === void 0 ? void 0 : profile.givenName) !== null && _b !== void 0 ? _b : '',
             last_name: (_c = profile === null || profile === void 0 ? void 0 : profile.familyName) !== null && _c !== void 0 ? _c : '',
-            store_id: newStore.id,
-            stores: [newStore]
+            // store_id: newStore.id,
+            //stores: [newStore]
         }, "");
         return { id: user.id };
     }
