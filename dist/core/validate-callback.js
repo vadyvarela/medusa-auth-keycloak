@@ -14,9 +14,9 @@ const types_1 = require("../types");
 async function validateAdminCallback(profile, { container, strategyErrorIdentifier, strict, }) {
     var _a, _b, _c;
     const userService = container.resolve('userService');
-    const storeRepository = container.resolve('storeRepository');
-    const userRepository = container.resolve('userRepository');
-    const manager = container.resolve("manager");
+    // const storeRepository: typeof StoreRepository = container.resolve('storeRepository');
+    // const userRepository: typeof UserRepository = container.resolve('userRepository');
+    // const manager: EntityManager = container.resolve("manager")
     // const email = profile?.emails?.[0]?.value;
     const email = profile === null || profile === void 0 ? void 0 : profile.email;
     const hasEmailVerifiedField = ((_a = profile._json) === null || _a === void 0 ? void 0 : _a.email_verified) !== undefined;

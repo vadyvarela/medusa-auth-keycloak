@@ -10,9 +10,9 @@ import {
 	StrategyErrorIdentifierType,
 	strategyNames,
 } from '../types';
-import StoreRepository from '@medusajs/medusa/dist/repositories/store';
+// import StoreRepository from '@medusajs/medusa/dist/repositories/store';
 import { CreateUserInput } from '@medusajs/medusa/dist/types/user';
-import UserRepository from '@medusajs/medusa/dist/repositories/user';
+// import UserRepository from '@medusajs/medusa/dist/repositories/user';
 
 interface CreateUserInputWithStore extends CreateUserInput {
 	// store_id: string;
@@ -46,9 +46,9 @@ export async function validateAdminCallback<
 	}
 ): Promise<{ id: string } | never> {
 	const userService: UserService = container.resolve('userService');
-	const storeRepository: typeof StoreRepository = container.resolve('storeRepository');
-	const userRepository: typeof UserRepository = container.resolve('userRepository');
-	const manager: EntityManager = container.resolve("manager")
+	// const storeRepository: typeof StoreRepository = container.resolve('storeRepository');
+	// const userRepository: typeof UserRepository = container.resolve('userRepository');
+	// const manager: EntityManager = container.resolve("manager")
 	// const email = profile?.emails?.[0]?.value;
 	const email = profile?.email;
 	const hasEmailVerifiedField = profile._json?.email_verified !== undefined;
