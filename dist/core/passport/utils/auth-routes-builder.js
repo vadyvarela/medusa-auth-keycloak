@@ -62,10 +62,10 @@ function successActionHandlerFactory(req, domain, configModule, defaultRedirect,
         return (req, res) => {
             const authenticateSession = (0, auth_callback_middleware_1.authenticateSessionFactory)(domain);
             authenticateSession(req, res);
-            const token = (0, auth_callback_middleware_1.signToken)(domain, configModule, req.user, expiresIn);
+            //const token =  signToken(domain, configModule, req.user, expiresIn);
             // append token to redirect url as query param
             const url = new URL(redirectUrl);
-            url.searchParams.append('access_token', token);
+            //url.searchParams.append('access_token', token);
             res.redirect(url.toString());
         };
     }

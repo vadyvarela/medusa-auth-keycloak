@@ -1,7 +1,7 @@
 {
   "name": "vady-kc-auth",
-  "version": "3.0.3",
-  "description": "KC Auth",
+  "version": "3.0.4",
+  "description": "keycloak Auth for Medusa",
   "keywords": [
     "social"
   ],

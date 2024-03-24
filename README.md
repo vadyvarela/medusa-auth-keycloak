@@ -1,4 +1,4 @@
-<h1 align="center"> vady KC </h1>
+<h1 align="center"> Medusa Auth keycloak </h1>
 
 
 ## Documentation
