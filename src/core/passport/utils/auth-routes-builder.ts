@@ -112,11 +112,11 @@ function successActionHandlerFactory(req: Request, domain: 'admin' | 'store', co
 			const authenticateSession = authenticateSessionFactory(domain);
 			authenticateSession(req, res);
 
-			const token =  signToken(domain, configModule, req.user, expiresIn);
+			//const token =  signToken(domain, configModule, req.user, expiresIn);
 
 			// append token to redirect url as query param
 			const url = new URL(redirectUrl);
-			url.searchParams.append('access_token', token);
+			//url.searchParams.append('access_token', token);
 			
 			res.redirect(url.toString());
 		};
