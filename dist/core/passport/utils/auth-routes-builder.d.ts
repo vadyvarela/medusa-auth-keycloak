@@ -8,6 +8,7 @@ type PassportCallbackAuthenticateMiddlewareOptions = {
     [key: string]: unknown;
     failureRedirect: string;
 };
+export declare const extractDomain: (url: any) => any;
 /**
  * Build and return a router including the different route and configuration for a passport strategy
  * @param domain

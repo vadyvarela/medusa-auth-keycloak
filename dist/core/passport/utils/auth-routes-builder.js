@@ -3,11 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.passportAuthRoutesBuilder = void 0;
+exports.passportAuthRoutesBuilder = exports.extractDomain = void 0;
 const express_1 = require("express");
 const passport_1 = __importDefault(require("passport"));
 const cors_1 = __importDefault(require("cors"));
 const auth_callback_middleware_1 = require("../../auth-callback-middleware");
+const extractDomain = (url) => {
+    const domain = url.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)/im)[1];
+    return domain;
+};
+exports.extractDomain = extractDomain;
 /**
  * Build and return a router including the different route and configuration for a passport strategy
  * @param domain
@@ -52,6 +57,8 @@ exports.passportAuthRoutesBuilder = passportAuthRoutesBuilder;
 function successActionHandlerFactory(req, domain, configModule, defaultRedirect, expiresIn) {
     const returnAccessToken = req.query.returnAccessToken == 'true';
     const redirectUrl = (req.query.redirectTo ? req.query.redirectTo : defaultRedirect);
+    const isProdOrStaging = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging';
+    const originHost = isProdOrStaging ? req.get('referer') && (0, exports.extractDomain)(req.get('referer')) : undefined;
     if (returnAccessToken) {
         return (req, res) => {
             const token = (0, auth_callback_middleware_1.signToken)(domain, configModule, req.user, expiresIn);
@@ -66,6 +73,13 @@ function successActionHandlerFactory(req, domain, configModule, defaultRedirect,
             // append token to redirect url as query param
             const url = new URL(redirectUrl);
             url.searchParams.append('access_token', token);
+            // Add support for medusa latest storefront
+            res.cookie('_medusa_jwt', token, {
+                domain: originHost,
+                secure: isProdOrStaging,
+                httpOnly: true,
+                sameSite: "none"
+            });
             res.redirect(url.toString());
         };
     }
