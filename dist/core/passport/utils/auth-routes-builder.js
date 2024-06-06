@@ -3,11 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.passportAuthRoutesBuilder = void 0;
+exports.passportAuthRoutesBuilder = exports.extractDomain = void 0;
 const express_1 = require("express");
 const passport_1 = __importDefault(require("passport"));
 const cors_1 = __importDefault(require("cors"));
 const auth_callback_middleware_1 = require("../../auth-callback-middleware");
+const extractDomain = (url) => {
+    const domain = url.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)/im)[1];
+    return domain;
+};
+exports.extractDomain = extractDomain;
 /**
  * Build and return a router including the different route and configuration for a passport strategy
  * @param domain
@@ -52,6 +57,8 @@ exports.passportAuthRoutesBuilder = passportAuthRoutesBuilder;
 function successActionHandlerFactory(req, domain, configModule, defaultRedirect, expiresIn) {
     const returnAccessToken = req.query.returnAccessToken == 'true';
     const redirectUrl = (req.query.redirectTo ? req.query.redirectTo : defaultRedirect);
+    const isProdOrStaging = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging';
+    const originHost = isProdOrStaging ? req.get('referer') && (0, exports.extractDomain)(req.get('referer')) : undefined;
     if (returnAccessToken) {
         return (req, res) => {
             const token = (0, auth_callback_middleware_1.signToken)(domain, configModule, req.user, expiresIn);
@@ -62,9 +69,15 @@ function successActionHandlerFactory(req, domain, configModule, defaultRedirect,
         return (req, res) => {
             const authenticateSession = (0, auth_callback_middleware_1.authenticateSessionFactory)(domain);
             authenticateSession(req, res);
-            //const token =  signToken(domain, configModule, req.user, expiresIn);
+            const token = (0, auth_callback_middleware_1.signToken)(domain, configModule, req.user, expiresIn);
             // append token to redirect url as query param
             const url = new URL(redirectUrl);
+            res.cookie('_medusa_jwt', token, {
+                domain: originHost,
+                secure: isProdOrStaging,
+                httpOnly: true,
+                sameSite: 'none',
+            });
             //url.searchParams.append('access_token', token);
             res.redirect(url.toString());
         };
